@@ -2,7 +2,7 @@
 
 ## Description:
 
-This project aims to develop an open-source, real-time robot arm simulator inspired by the KUKA KR 700 PA palletizing robot. The primary focus is on educational purposes and performing simple industrial tasks, such as pick-and-place operations with a payload of approximately 0.5 kg. The robotic arm will be built using NEMA stepper motors, motor drivers, and an Atmega or STM controller. The simulator will be developed using Blender for 3D modeling, rigging, and simulation, along with Python or Rust scripting for communication and synchronization with the physical robotic arm.
+This project aims to develop an open-source, real-time robot arm simulator inspired by the [KUKA KR 700 PA palletizing robot](https://github.com/SiliconWit/real-time-robot-arm-simulator/blob/main/KUKA-KR-700-PA.pdf). The primary focus is on educational purposes and performing simple industrial tasks, such as pick-and-place operations with a payload of approximately 0.5 kg. The robotic arm will be built using NEMA stepper motors, motor drivers, and an Atmega or STM controller. The simulator will be developed using Blender for 3D modeling, rigging, and simulation, along with Python or Rust scripting for communication and synchronization with the physical robotic arm.
 
 The main goal of this project is to create a virtual representation of the robotic arm that accurately mirrors its real-world counterpart's behavior and allows users to visualize, interact with, and control the robotic arm through the simulator interface. This will provide a valuable open-source educational tool for understanding robotic systems, as well as a platform for testing and refining control algorithms before deploying them in real-world environments.
 
