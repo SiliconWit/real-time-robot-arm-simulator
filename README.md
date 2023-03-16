@@ -20,4 +20,18 @@ The main goal of this project is to create a virtual representation of the robot
 
 - *Documentation and Tutorials:* Create comprehensive documentation and tutorials explaining the project's structure, components, and usage, as well as providing guidance for setting up the hardware and software required for the simulator.
 
+***
+
 We invite contributors to join this project and help us create an open-source, accessible, and easy-to-use robot arm simulator inspired by the KUKA KR 700 PA. Your contributions can include improvements to the 3D model, rigging, scripting, user interface, or documentation, as well as bug reports and feature suggestions. We look forward to working together to make this project a valuable resource for the robotics and education communities.
+
+***
+
+## Possible Unique Aspects:
+
+While there are already existing open-source, real-time robot arm simulators, this particular project can differentiate itself from others through the following aspects:
+
+- *Target Audience:* Designed specifically for students and educators, the simulator focuses on accessibility and ease of use.
+- *Hardware Compatibility:* Compatible with NEMA stepper motors, motor drivers, and Atmega or STM controllers, it caters to various hardware setups.
+- *KUKA KR 700 PA Inspiration:* By drawing inspiration from the industry-standard KUKA KR 700 PA palletizing robot, the project ensures a realistic and practical learning experience.
+- *Blender Integration:* Leveraging Blender for 3D modeling, rigging, and simulation, and Python or Rust for scripting, the project benefits from Blender's powerful features and wide user community.
+- *Customizability:* As an open-source project, the simulator promotes innovation and encourages contributions from the robotics community through easy modification, extension, and adaptation.
