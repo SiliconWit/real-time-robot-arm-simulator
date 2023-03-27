@@ -35,3 +35,20 @@ While there are already existing open-source, real-time robot arm simulators, th
 - *KUKA KR 700 PA Inspiration:* By drawing inspiration from the industry-standard KUKA KR 700 PA palletizing robot, the project ensures a realistic and practical learning experience.
 - *Blender Integration:* Leveraging Blender for 3D modeling, rigging, and simulation, and Python or Rust for scripting, the project benefits from Blender's powerful features and wide user community.
 - *Customizability:* As an open-source project, the simulator promotes innovation and encourages contributions from the robotics community through easy modification, extension, and adaptation.
+
+## Starter Project: 2R Pick and Place Robot Arm Simulation 
+
+This is interactive Python-based starter project, based on https://www.siliconwit.com/robotics. This project simulates a 2-link (2R) robotic arm performing a pick and place task, providing an introduction to various robotics concepts, such as:
+
+- Forward and Inverse Kinematics
+- Robot Arm Geometry
+- Quaternions in Robotics
+- Animation and Visualization
+- Pick and Place Task
+- Trajectory Planning
+- Error Handling and Limits
+- Practical Applications
+
+The simulation uses matplotlib for visualization and animation, and numpy for mathematical calculations. It covers the entire pick and place process, starting from the robot's home position, moving to the initial position, picking up the box, moving to the final position, placing the box, and returning to the home position. The simulation also displays the box's position in real-time during the animation.
+
+Dive into this project, adjust the parameters, **improve it**, and enhance your understanding of robotics!
