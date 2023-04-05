@@ -23,11 +23,14 @@ def inverse_kinematics(x, y, offset=0):
     
     # Calculate the angle between the two links using the law of cosines
     a = np.arccos((L1**2 + L2**2 - d**2) / (2 * L1 * L2))
+
+    # Calculate the angle alpha2
+    alpha2 = np.radians(180) - a
     
     # Calculate the angle of the first link with respect to the horizontal axis
-    b = np.arctan2(y + offset, x) - np.arctan2(L2 * np.sin(a), L1 + L2 * np.cos(a))
+    b = np.arctan2(y + offset, x) - np.arctan2(L2 * np.sin(alpha2), L1 + L2 * np.cos(alpha2))
     
-    return b, a + b
+    return b, alpha2 + b
 
 # Define the dimensions of the box to be moved
 box_width, box_height = 1, 1
