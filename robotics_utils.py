@@ -105,14 +105,14 @@ class RobotRevLink():
         bpy.ops.object.empty_add(type='SINGLE_ARROW', align='WORLD', location=position)
         bpy.context.object.empty_display_size = 0.05
         bpy.context.object.name = name
-        ut.set_parent( name, self.name )
+        # ut.set_parent( name, self.name )
         self.ee = bpy.ops.object
     
     def get_child(self):
         self.obj.children[0] if( self.obj.children[0] ) else None
         
     def spawn_target(self):
-        random_loc = Vector(random.uniform(0, 1) for _ in range(3))
+        random_loc = Vector(random.uniform( -0.35, 0.35) for _ in range(3))
         _location = ut.get_world_trans(self.obj) + random_loc
         bpy.ops.mesh.primitive_uv_sphere_add(radius=0.025, align='WORLD', location=_location )
         bpy.context.active_object.name = "Target"

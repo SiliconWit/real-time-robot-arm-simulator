@@ -5,14 +5,14 @@ from typing import Union
 List of Utility Functions
 '''
 
-def world_trans(obj):
+def get_world_trans(obj):
     '''
     Gets the position and rotation of an object with 
     reference to  the global coordinates(Fixed Frame)
     '''
     loc = obj.matrix_world.to_translation()
     rot = obj.matrix_world.to_euler()
-    return loc, rot
+    return loc
 
 def get_object_by_name(name: str):
     '''
@@ -73,7 +73,7 @@ def set_parent( child_n, parent_n ):
     
     bpy.ops.object.parent_set(type='OBJECT', keep_transform=True)
 
-def get_child(obj_n:str) -> Union[bpy.type.Object, None]:
+def get_child(obj_n:str) -> Union[bpy.types.Object, None]:
     '''
     Get the first child of a blender object
 
@@ -97,3 +97,21 @@ def get_child(obj_n:str) -> Union[bpy.type.Object, None]:
 def clear_scene():
     bpy.ops.object.select_all(action='SELECT')
     bpy.ops.object.delete(use_global=False, confirm=False)
+
+def local_orientation(obj):
+    if obj:
+        # Get the object's world matrix
+        matrix_world = obj.matrix_world
+
+        # Extract the local axes
+        local_x_axis = matrix_world.to_3x3().col[0].normalized()
+        local_y_axis = matrix_world.to_3x3().col[1].normalized()
+        local_z_axis = matrix_world.to_3x3().col[2].normalized()
+
+        print("Local X axis:", local_x_axis)
+        print("Local Y axis:", local_y_axis)
+        print("Local Z axis:", local_z_axis)
+        return [local_x_axis, local_y_axis, local_z_axis]
+    else:
+        print("Object not found.")
+        return None

@@ -1,7 +1,8 @@
 import math
 from mathutils import Vector, Matrix
 from typing import Tuple
-
+import random
+from blender_utils import get_world_trans
 Axes = {
     "X":{
         "id"  :0,
@@ -103,54 +104,22 @@ def angle_diff_a(target, source, axis ):
 def angle_diff(origin, start_obj, end_obj, plane):
    pass
 
+def set_global_position(obj, new_position):
+    # Get the object's current matrix_world
+    current_matrix = obj.matrix_world
 
-def rotation_about( point, origin, axis, angle ):
-    axis_c = axis.upper()
-    global_axis = origin.matrix_world.to_3x3() @ Vector(Axes[axis_c]["vec"])
-    if(axis_c == 'X'):
-        rotation_matrix = rotation_matrix_x(angle)
-    elif(axis_c == 'Y'):
-        rotation_matrix = rotation_matrix_y(angle)
-    elif(axis_c == 'Z'):
-        rotation_matrix = rotation_matrix_z(angle)
-    else:
-        rotation_matrix = rotation_matrix_x(angle)
-        
-    # Calculate the new transformation matrix after applying the rotation
-    new_matrix_world = (
-        Matrix.Translation(origin.location) @
-        Matrix.Rotation(math.radians(angle), 4, global_axis) @
-        Matrix.Translation(-origin.location) @
-        point.matrix_world
-    )
-    
-    # Calculate the translation vector
-    translation_vector = new_matrix_world.to_translation() - point.matrix_world.to_translation()
-    
-    # Add the translation vector to the point's current location
-    new_location = point.location + translation_vector
-    print("New location of the point object:", new_location)
+    # Create a new translation matrix from the desired new_position
+    translation_matrix = Matrix.Translation(new_position)
 
-    # Apply the new location to the point object
-    point.location = new_location
-    
-    
-def rotate_by( obj, axis, angle ):
-    axis_c = axis.upper()
-    print(obj.location)
-    if(axis_c == 'X'):
-        rotation_matrix = rotation_matrix_x(angle)
-    elif(axis_c == 'Y'):
-        rotation_matrix = rotation_matrix_y(angle)
-    elif(axis_c == 'Z'):
-        rotation_matrix = rotation_matrix_z(angle)
-    else:
-        rotation_matrix = rotation_matrix_x(angle)
-    
-    # Get the rotation Matrix
-    rotTrans = obj.matrix_world @ rotation_matrix
-    obj.rotation_euler = rotTrans.to_euler()
-    return rotTrans.to_euler()
+    # Extract the current object's rotation and scale
+    _, rotation, scale = current_matrix.decompose()
+
+    # Create new rotation and scale matrices
+    rotation_matrix = rotation.to_matrix().to_4x4()
+    scale_matrix = Matrix.Diagonal(scale.to_4d()).to_4x4()
+
+    # Calculate the new matrix_world by combining the new translation, rotation, and scale matrices
+    obj.matrix_world = translation_matrix @ rotation_matrix @ scale_matrix
 
 def rotate_to( obj, axis, angle ):
     axis_c = axis.upper()
@@ -194,3 +163,21 @@ def rotate_object_local_axis(obj, axis, angle_degrees):
     obj.matrix_world = obj.matrix_world @ obj.matrix_world.to_3x3().to_4x4().inverted() @ rotation_matrix @ obj.matrix_world.to_3x3().to_4x4()
     # rot_trans = obj.matrix_world @ obj.matrix_world.to_3x3().to_4x4().inverted() @ rotation_matrix @ obj.matrix_world.to_3x3().to_4x4()
     # return tor
+
+def project_object( obj, ref, static_axis ):
+    rand = lambda : random.random()
+    # Create a virtual plane using 3 points 
+    point_1 = Vector((rand(), rand(), get_world_trans(ref)[static_axis]))
+    point_2 = Vector((rand(), rand(), get_world_trans(ref)[static_axis]))
+    point_3 = Vector((rand(), rand(), get_world_trans(ref)[static_axis]))
+    
+    # Calculate the normal vector of the plane
+    edge_1 = point_2 - point_1
+    edge_2 = point_3 - point_1
+    normal = edge_1.cross(edge_2).normalized()
+    
+    # Calculate Projection
+    dist = ( get_world_trans(obj) - point_1).dot(normal)
+    projected_position = get_world_trans(obj) - (dist * normal)
+    
+    return projected_position
