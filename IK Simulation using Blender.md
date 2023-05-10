@@ -1,4 +1,5 @@
-﻿<a name="br1"></a>**FABRIK Simulationusing Blender**
+﻿<a name="br1"></a>**FABRIK Simulation
+using Blender**
 
 Andrew Kibor - E222-01-0431/2022
 
@@ -51,7 +52,8 @@ Heuristic
 
 
 
-<a name="br5"></a>**FABRIK Solver: Forward & Backwardprocedures**
+<a name="br5"></a>**FABRIK Solver: Forward & Backward
+procedures**
 
 Credit: <https://doi.org/10.1063/1.4983058>
 
@@ -94,13 +96,15 @@ Iteration in the FABRIK function
 
 Some of the challenges and limitations encountered include
 
-➔ Base rotations only work well for the 1st quadrant of the XY plane➔ Lack of Joint Representations
+➔ Base rotations only work well for the 1st quadrant of the XY plane
+➔ Lack of Joint Representations
 
 ➔ Limited User Interactions
 
 The following can be undertaken to improve the simulator
 
-➔ Use of a robot 3D model➔ Perform a real world action
+➔ Use of a robot 3D model
+➔ Perform a real world action
 
 
 
@@ -132,7 +136,9 @@ normal = edge\_1.cross(edge\_2).normalized()
 
 *# Calculate Projection*
 
-` `dist = ( get\_world\_trans(obj) - point\_1).dot(normal) projected\_position = get\_world\_trans(obj) - (dist \*normal)
+` `dist = ( get\_world\_trans(obj) - point\_1).dot(normal)
+ projected\_position = get\_world\_trans(obj) - (dist \*
+normal)
 
 return projected\_position
 
@@ -148,7 +154,9 @@ return projected\_position
 
 **Scripts**
 
-❏ **playground.cs** : Main File. Entry point.❏ **robotics\_utils.py** : Creates the 3 DOF robot arm
+❏ **playground.cs** : Main File. Entry point.
+❏ **robotics\_utils.py** : Creates the 3 DOF
+ robot arm
 
 ❏ **transformations.py**: Handles geometric
 
@@ -160,11 +168,12 @@ intrinsic functions
 
 **Instructions**
 
-1\. Launch Blender
+1\. Launch Blender & Save the file in the scripts folder 
 
 2\. Open playground.cs in the script editor
 
-3\. Run the script to to create the “Robotics” panel.
+3\. Run the script to to create the “Robotics”
+ panel.
 
 4\. Click on the “Reset Scene” button to spawn
 
