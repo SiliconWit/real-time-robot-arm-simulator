@@ -9,6 +9,7 @@ blend_file_dir = os.path.dirname(bpy.data.filepath)
 sys.path.append(blend_file_dir)
 import blender_utils as ut
 
+# Confifuration of the robot
 robotconfig = {
     "base": {
         "limits": [0, 232],
@@ -112,8 +113,11 @@ class RobotRevLink():
         self.obj.children[0] if( self.obj.children[0] ) else None
         
     def spawn_target(self):
-        random_loc = Vector(random.uniform( -0.35, 0.35) for _ in range(3))
-        _location = ut.get_world_trans(self.obj) + random_loc
+        random_loc = Vector(random.uniform( 0, 0.3) for _ in range(3))
+        offset_point = ut.get_world_trans(self.obj)
+        offset_point[2] += self.length/2 
+        # random_loc = Vector( ( random.uniform( -0.25, 0.25), offset_point[2] + self.length/2,random.uniform( -0.25, 0.25) ) )
+        _location = offset_point + random_loc
         bpy.ops.mesh.primitive_uv_sphere_add(radius=0.025, align='WORLD', location=_location )
         bpy.context.active_object.name = "Target"
     
@@ -127,6 +131,8 @@ def setup_robot(robotconfig, RobotRevLink):
     link3.create_endeffector( robotconfig["EE"]["position"] )
     link3.spawn_target()
 
+def setup_robot_default():
+    setup_robot(robotconfig, RobotRevLink)
 
 # Define the custom operator
 class SimpleOperator(bpy.types.Operator):

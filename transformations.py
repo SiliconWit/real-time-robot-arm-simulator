@@ -1,6 +1,6 @@
 import math
 from mathutils import Vector, Matrix
-from typing import Tuple
+from typing import Tuple, Union
 import random
 from blender_utils import get_world_trans
 Axes = {
@@ -17,15 +17,6 @@ Axes = {
         "vec" : (0,0,1)
     }
 }
-
-class Plane:
-    def __init__(self, pt1:Vector, pt2:Vector, pt3:Vector) -> Tuple[Vector, Vector]:
-        edge_1 = pt2 - pt1
-        edge_2 = pt3 - pt1
-        normal = edge_1.cross(edge_2).normalized()
-        self.point = pt1
-        self.normal = normal
-        return (normal, pt1)
 
 
 # Define the lambda functions for cosine and sine
@@ -101,9 +92,6 @@ def angle_diff_a(target, source, axis ):
     
     return math.degrees(rads) 
 
-def angle_diff(origin, start_obj, end_obj, plane):
-   pass
-
 def set_global_position(obj, new_position):
     # Get the object's current matrix_world
     current_matrix = obj.matrix_world
@@ -121,21 +109,6 @@ def set_global_position(obj, new_position):
     # Calculate the new matrix_world by combining the new translation, rotation, and scale matrices
     obj.matrix_world = translation_matrix @ rotation_matrix @ scale_matrix
 
-def rotate_to( obj, axis, angle ):
-    axis_c = axis.upper()
-    if(axis_c == 'X'):
-        rotation_matrix = rotation_matrix_x(angle)
-    elif(axis_c == 'Y'):
-        rotation_matrix = rotation_matrix_y(angle)
-    elif(axis_c == 'Z'):
-        rotation_matrix = rotation_matrix_z(angle)
-    else:
-        rotation_matrix = rotation_matrix_x(angle)
-    
-    # Get the rotation Matrix
-    rotTrans = obj.matrix_world @ rotation_matrix
-    obj.rotation_euler = rotTrans.to_euler()
-    return rotTrans.to_euler()
 
 def rotate_object_local_axis(obj, axis, angle_degrees):
     """
@@ -165,6 +138,15 @@ def rotate_object_local_axis(obj, axis, angle_degrees):
     # return tor
 
 def project_object( obj, ref, static_axis ):
+    '''
+    Projects a Blender Object onto a given plane
+    Args:
+        obj (bpy.type.Object) : Object to Project
+        ref (bpy.type.Object) : Object that is a reference for the plane
+        static_axis (int) : Local axis of ref normal to the plane
+    Return: 
+        (Vector) : A projection of obj 
+    '''
     rand = lambda : random.random()
     # Create a virtual plane using 3 points 
     point_1 = Vector((rand(), rand(), get_world_trans(ref)[static_axis]))
@@ -181,3 +163,23 @@ def project_object( obj, ref, static_axis ):
     projected_position = get_world_trans(obj) - (dist * normal)
     
     return projected_position
+
+def get_angle(ref_point:Vector, from_point:Vector, to_point:Vector, axis=1) -> Union[float, float]:
+    '''
+        Gives the angle between 2 vectors
+        Utilises Vector properties
+        Args:
+            ref_point (Vector): A common reference point for the 2 vectors
+            from_point (Vector): Start Vector
+            to_point (Vector): End Vector
+        Returns:
+            float: Angle In Radians
+            float: Angle In Degrees
+    '''
+    a = from_point -  ref_point 
+    b = to_point - ref_point
+    angle_sign = 1 if a.cross(b)[axis] >= 0 else -1
+    clipped_cos_angle = max(min(a.dot(b)/( a.length * b.length ), 1), -1) 
+    _angle = math.acos( clipped_cos_angle ) * angle_sign
+    
+    return _angle, math.degrees(_angle)

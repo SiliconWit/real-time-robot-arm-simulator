@@ -98,6 +98,15 @@ def clear_scene():
     bpy.ops.object.select_all(action='SELECT')
     bpy.ops.object.delete(use_global=False, confirm=False)
 
+def play_animation(frame=0):
+    bpy.context.scene.frame_set(frame)
+    bpy.ops.screen.animation_play()
+
+# Stop the animation
+def stop_animation(frame=0):
+    bpy.context.scene.frame_set(frame)
+    bpy.ops.screen.animation_play(reverse=True)
+
 def local_orientation(obj):
     if obj:
         # Get the object's world matrix
